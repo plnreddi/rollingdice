@@ -16,10 +16,20 @@
     </div>
 </div>
 
-<div class="wrapper-md">
-    <div class="row form-horizontal" id="show-view">
-        <div ng-repeat="field in ::showController.fields track by $index" compile="::field.getTemplateValueWithLabel(entry)">
-            <ma-show-item field="::field" entry="::entry" entity="::showController.entity" datastore="::showController.dataStore"></ma-show-item>
+<div class="wrapper-md row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Test</div>
+            <table class="table table-striped m-b-none">
+                <tbody>
+                    <tr ng-repeat="field in ::showController.fields track by $index" compile="::field.getTemplateValueWithLabel(entry)">
+                        <th>{{ field.label() | translate }}</th>
+                        <td>
+                            <ma-column field="::field" entry="::entry" entity="::showController.entity" datastore="::showController.datastore"></ma-column>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
