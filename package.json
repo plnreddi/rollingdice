@@ -78,5 +78,10 @@
   },
   "scripts": {
     "test": "make test"
+  },
+  "dependencies": {
+    "nprogress": "^0.2.0",
+    "simple-line-icons": "^2.3.2",
+    "source-sans-pro": "git://github.com/adobe-fonts/source-sans-pro.git#release"
   }
 }

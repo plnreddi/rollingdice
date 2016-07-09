@@ -19,7 +19,7 @@ export default function maDatagrid() {
         controllerAs: 'datagrid',
         controller: maDatagridController,
         template:
-`<table class="grid table table-condensed table-hover table-striped">
+`<table class="grid table table-condensed table-hover table-striped b-t b-light">
     <thead>
         <tr>
             <th ng-if="selection">

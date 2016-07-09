@@ -10,13 +10,15 @@ function getEntrySources(sources) {
 
 var ngAdminSources = [
     './src/javascripts/app/app.js',
-    './src/sass/ng-admin.scss'
+    './src/sass/app.scss'
 ];
 
 var ngAdminAndVendorSources = [
     './src/javascripts/app/app.js',
     './src/javascripts/vendors.js',
+    './src/fonts/font.css',
     'font-awesome/scss/font-awesome.scss',
+    'simple-line-icons/scss/simple-line-icons.scss',
     'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
     'nprogress/nprogress.css',
     'humane-js/themes/flatty.css',
@@ -24,13 +26,12 @@ var ngAdminAndVendorSources = [
     'codemirror/lib/codemirror.css',
     'codemirror/addon/lint/lint.css',
     'ui-select/dist/select.css',
-    './src/sass/ng-admin.scss'
+    './src/sass/app.scss'
 ];
 
 module.exports = {
     entry: {
-        'ng-admin': getEntrySources(ngAdminAndVendorSources),
-        'ng-admin-only': getEntrySources(ngAdminSources)
+        'ng-admin': getEntrySources(ngAdminAndVendorSources)
     },
     output: process.env.NODE_ENV === 'test' ? {
         path: './src/javascripts/test/fixtures/examples/blog/',

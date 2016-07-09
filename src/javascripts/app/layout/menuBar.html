@@ -1,4 +1,4 @@
-<div class="navbar-default sidebar" role="navigation" compile="menu.template()">
+<!--<div class="navbar-default sidebar" role="navigation" compile="menu.template()">
     <div class="sidebar-nav navbar-collapse collapse" uib-collapse="$parent.isCollapsed">
         <ul class="nav" id="side-menu">
             <li class="entities-repeat" ng-repeat="(key, menu) in ::menu.children()" data-menu-id="{{ ::menu.uuid }}" compile="menu.template()">
@@ -22,4 +22,15 @@
             </li>
         </ul>
     </div>
-</div>
+</div>-->
+<ul class="nav">
+      <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+    <span>{{ 'Navigation' | translate }}</span>
+  </li>
+   <li ui-sref-active="active" ng-repeat="(key, menu) in ::menu.children()" data-menu-id="{{ ::menu.uuid }}">
+    <a href="#{{ menu.link() }}" ng-click="activateLink(menu)" ng-class="::{'active': menu.isActive(path)}">
+      <i class="glyphicon glyphicon-calendar icon text-info-dker"></i>
+      <span class="font-bold">{{ menu.title() | translate }}</span>
+    </a>
+  </li>
+</ul>

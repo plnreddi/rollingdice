@@ -1,24 +1,25 @@
-<div class="row">
-    <div class="col-lg-12">
-        <div class="page-header">
-            <ma-view-actions override="::showController.actions" entry="entry" entity="::showController.entity">
-                <ma-list-button ng-if="::entity.listView().enabled" entity="::entity"></ma-list-button>
-                <ma-edit-button ng-if="::entity.editionView().enabled" entry="entry" entity="::entity"></ma-edit-button>
-                <ma-delete-button ng-if="::entity.deletionView().enabled" entry="entry" entity="::entity"></ma-delete-button>
-            </ma-view-actions>
-            <h1 compile="::showController.title">
-                {{ ::showController.view.entity.label() | humanize | singularize | translate }}  #{{ ::entry.identifierValue }} {{ 'DETAIL' | translate }}
-            </h1>
-            <p class="lead" ng-if="::showController.description" compile="::showController.description">{{ ::showController.description }}</p>
+<div class="hbox hbox-auto-xs hbox-auto-sm">
+    <div class="bg-light lter b-b wrapper-md">
+        <div class="row">
+            <div class="col-sm-6 col-xs-12">
+                <h1 class="m-n font-thin h3 text-black" compile="::showController.title">
+                    {{ ::showController.view.entity.label() | humanize | singularize | translate }}  #{{ ::entry.identifierValue }} {{ 'DETAIL' | translate }}
+                    </h1>
+                <small class="text-muted lead" ng-if="::showController.description" compile="::showController.description">{{ ::showController.description }}</small>
+            </div>
         </div>
+        <ma-view-actions override="::showController.actions" entry="entry" entity="::showController.entity">
+            <ma-list-button ng-if="::entity.listView().enabled" entity="::entity"></ma-list-button>
+            <ma-edit-button ng-if="::entity.editionView().enabled" entry="entry" entity="::entity"></ma-edit-button>
+            <ma-delete-button ng-if="::entity.deletionView().enabled" entry="entry" entity="::entity"></ma-delete-button>
+        </ma-view-actions>
     </div>
 </div>
 
-
-<div class="row form-horizontal" id="show-view">
-
-    <div ng-repeat="field in ::showController.fields track by $index" compile="::field.getTemplateValueWithLabel(entry)">
-        <ma-show-item field="::field" entry="::entry" entity="::showController.entity" datastore="::showController.dataStore"></ma-show-item>
+<div class="wrapper-md">
+    <div class="row form-horizontal" id="show-view">
+        <div ng-repeat="field in ::showController.fields track by $index" compile="::field.getTemplateValueWithLabel(entry)">
+            <ma-show-item field="::field" entry="::entry" entity="::showController.entity" datastore="::showController.dataStore"></ma-show-item>
+        </div>
     </div>
-
 </div>

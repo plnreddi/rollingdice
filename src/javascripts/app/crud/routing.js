@@ -129,7 +129,7 @@ function routing($stateProvider) {
 
                             return entries;
                         }],
-                        prepare: ['view', '$stateParams', 'dataStore', 'entries', '$window', '$injector', function(view, $stateParams, dataStore, entries, $window, $injector) {
+                        prepare: ['view', '$stateParams', 'dataStore', 'entries', '$window', '$injector', function (view, $stateParams, dataStore, entries, $window, $injector) {
                             return view.prepare() && $injector.invoke(view.prepare(), view, {
                                 query: $stateParams,
                                 datastore: dataStore,
@@ -142,6 +142,21 @@ function routing($stateProvider) {
                     }
                 }
             }
+        });
+
+    $stateProvider
+        .state('showme', {
+            parent: 'main',
+            url: '/:entity/showme/:id',
+            template: '<h2>hello</h2><ui-view />'
+        })
+        .state('showmetab', {
+            parent: 'showme',
+            url: '/:tab',
+            template: `<uib-tabset active="activePill" vertical="true" type="pills">
+            <uib-tab index="0" heading="Vertical 1">Vertical content 1</uib-tab>
+    <uib-tab index="1" heading="Vertical 2">Vertical content 2</uib-tab>
+  </uib-tabset>`
         });
 
     $stateProvider
@@ -165,7 +180,7 @@ function routing($stateProvider) {
                 rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                     return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                 }],
-                entry: ['view', 'rawEntry', function(view, rawEntry) {
+                entry: ['view', 'rawEntry', function (view, rawEntry) {
                     return view.mapEntry(rawEntry);
                 }],
                 referenceData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
@@ -196,11 +211,11 @@ function routing($stateProvider) {
                         ).map(entry => dataStore.addEntry(referencedLists[name].targetEntity().uniqueId + '_list', entry));
                     }
                 }],
-                entryWithReferences: ['dataStore', 'view', 'entry', 'referenceEntries', function(dataStore, view, entry, referenceEntries) {
+                entryWithReferences: ['dataStore', 'view', 'entry', 'referenceEntries', function (dataStore, view, entry, referenceEntries) {
                     dataStore.fillReferencesValuesFromEntry(entry, view.getReferences(), true);
                     dataStore.addEntry(view.getEntity().uniqueId, entry);
                 }],
-                referenceDataForReferencedLists: ['$q', 'ReadQueries', 'view', 'referencedListData', function ($q,ReadQueries, view, referencedListData) {
+                referenceDataForReferencedLists: ['$q', 'ReadQueries', 'view', 'referencedListData', function ($q, ReadQueries, view, referencedListData) {
                     const referencedLists = view.getReferencedLists();
                     var promises = {};
                     Object.keys(referencedLists).map(name => {
@@ -208,7 +223,7 @@ function routing($stateProvider) {
                     });
                     return $q.all(promises);
                 }],
-                referenceEntriesForReferencedLists: ['dataStore', 'view', 'referenceDataForReferencedLists', function(dataStore, view, referenceDataForReferencedLists) {
+                referenceEntriesForReferencedLists: ['dataStore', 'view', 'referenceDataForReferencedLists', function (dataStore, view, referenceDataForReferencedLists) {
                     const referencedLists = view.getReferencedLists();
                     Object.keys(referencedLists).map(referencedListName => {
                         const references = referencedLists[referencedListName].getReferences();
@@ -226,7 +241,7 @@ function routing($stateProvider) {
                     });
                     return true;
                 }],
-                prepare: ['view', '$stateParams', 'dataStore', 'entry', 'entryWithReferences', 'referencedListEntries', 'referenceEntriesForReferencedLists', '$window', '$injector', function(view, $stateParams, dataStore, entry, entryWithReferences, referencedListEntries, referenceEntriesForReferencedLists, $window, $injector) {
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', 'entryWithReferences', 'referencedListEntries', 'referenceEntriesForReferencedLists', '$window', '$injector', function (view, $stateParams, dataStore, entry, entryWithReferences, referencedListEntries, referenceEntriesForReferencedLists, $window, $injector) {
                     return view.prepare() && $injector.invoke(view.prepare(), view, {
                         query: $stateParams,
                         datastore: dataStore,
@@ -281,7 +296,7 @@ function routing($stateProvider) {
                         ).map(entry => dataStore.addEntry(choices[name].targetEntity().uniqueId + '_choices', entry));
                     }
                 }],
-                prepare: ['view', '$stateParams', 'dataStore', 'entry', 'choiceEntries', '$window', '$injector', function(view, $stateParams, dataStore, entry, choiceEntries, $window, $injector) {
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', 'choiceEntries', '$window', '$injector', function (view, $stateParams, dataStore, entry, choiceEntries, $window, $injector) {
                     return view.prepare() && $injector.invoke(view.prepare(), view, {
                         query: $stateParams,
                         datastore: dataStore,
@@ -319,7 +334,7 @@ function routing($stateProvider) {
                 rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                     return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl($stateParams.id));
                 }],
-                entry: ['view', 'rawEntry', function(view, rawEntry) {
+                entry: ['view', 'rawEntry', function (view, rawEntry) {
                     return view.mapEntry(rawEntry);
                 }],
                 referenceData: ['ReadQueries', 'view', 'entry', function (ReadQueries, view, entry) {
@@ -350,7 +365,7 @@ function routing($stateProvider) {
                         ).map(entry => dataStore.addEntry(referencedLists[name].targetEntity().uniqueId + '_list', entry));
                     }
                 }],
-                entryWithReferences: ['dataStore', 'view', 'entry', 'referenceEntries', function(dataStore, view, entry, referenceEntries) {
+                entryWithReferences: ['dataStore', 'view', 'entry', 'referenceEntries', function (dataStore, view, entry, referenceEntries) {
                     dataStore.fillReferencesValuesFromEntry(entry, view.getReferences(), true);
                     dataStore.addEntry(view.getEntity().uniqueId, entry);
                 }],
@@ -368,7 +383,7 @@ function routing($stateProvider) {
                         ).map(entry => dataStore.addEntry(choices[name].targetEntity().uniqueId + '_choices', entry));
                     }
                 }],
-                referenceDataForReferencedLists: ['$q', 'ReadQueries', 'view', 'referencedListData', function ($q,ReadQueries, view, referencedListData) {
+                referenceDataForReferencedLists: ['$q', 'ReadQueries', 'view', 'referencedListData', function ($q, ReadQueries, view, referencedListData) {
                     const referencedLists = view.getReferencedLists();
                     var promises = {};
                     Object.keys(referencedLists).map(name => {
@@ -376,7 +391,7 @@ function routing($stateProvider) {
                     });
                     return $q.all(promises);
                 }],
-                referenceEntriesForReferencedLists: ['dataStore', 'view', 'referenceDataForReferencedLists', function(dataStore, view, referenceDataForReferencedLists) {
+                referenceEntriesForReferencedLists: ['dataStore', 'view', 'referenceDataForReferencedLists', function (dataStore, view, referenceDataForReferencedLists) {
                     const referencedLists = view.getReferencedLists();
                     Object.keys(referencedLists).map(referencedListName => {
                         const references = referencedLists[referencedListName].getReferences();
@@ -394,7 +409,7 @@ function routing($stateProvider) {
                     });
                     return true;
                 }],
-                prepare: ['view', '$stateParams', 'dataStore', 'entry', 'referenceEntriesForReferencedLists', 'choiceEntries', 'entryWithReferences', '$window', '$injector', function(view, $stateParams, dataStore, entry, referenceEntriesForReferencedLists, choiceEntries, entryWithReferences, $window, $injector) {
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', 'referenceEntriesForReferencedLists', 'choiceEntries', 'entryWithReferences', '$window', '$injector', function (view, $stateParams, dataStore, entry, referenceEntriesForReferencedLists, choiceEntries, entryWithReferences, $window, $injector) {
                     return view.prepare() && $injector.invoke(view.prepare(), view, {
                         query: $stateParams,
                         datastore: dataStore,
@@ -429,10 +444,10 @@ function routing($stateProvider) {
                 rawEntry: ['$stateParams', 'ReadQueries', 'view', function ($stateParams, ReadQueries, view) {
                     return ReadQueries.getOne(view.getEntity(), view.type, $stateParams.id, view.identifier(), view.getUrl());
                 }],
-                entry: ['view', 'rawEntry', function(view, rawEntry) {
+                entry: ['view', 'rawEntry', function (view, rawEntry) {
                     return view.mapEntry(rawEntry);
                 }],
-                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function(view, $stateParams, dataStore, entry, $window, $injector) {
+                prepare: ['view', '$stateParams', 'dataStore', 'entry', '$window', '$injector', function (view, $stateParams, dataStore, entry, $window, $injector) {
                     return view.prepare() && $injector.invoke(view.prepare(), view, {
                         query: $stateParams,
                         datastore: dataStore,

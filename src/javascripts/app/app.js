@@ -51,57 +51,6 @@ app.config(['NgAdminConfigurationProvider', function (NgAdminConfigurationProvid
     var encounter = nga.entity('Encounters');
     var allergy = nga.entity('AllergyIntolerances');
 
-    /**
-     * Build a LoopBack property definition from the JSON model
-     * @param {Object} schema JSON Schema
-     * @param {Object} jsonModel The json model definition
-     * @param {String} propertyName The property name
-     * @returns {Object}
-     */
-    function buildProperty(nga, jsonModel, propertyName) {
-        var jsonProperty = jsonModel.properties[propertyName];
-        var property;
-
-        if (jsonProperty.type === 'array' && jsonProperty.items) {
-            property = nga.field(propertyName, 'embedded_list').targetFields(
-                buildModel(nga, jsonProperty.items));
-        } else if (jsonProperty.type === 'object') {
-            property = nga.field(propertyName);
-        } else {
-            property = nga.field(propertyName, jsonProperty.type);
-        }
-
-
-        // if (Array.isArray(jsonModel.required) &&
-        //     jsonModel.required.indexOf(propertyName) !== -1) {
-        //     property.required = true;
-        // }
-        // for (var a in jsonProperty) {
-        //     if (a === 'items' || (a in property)) {
-        //         continue;
-        //     }
-        //     property[a] = jsonProperty[a];
-        // }
-        return property;
-    }
-
-    function buildModel(nga, jsonModel) {
-
-        if (jsonModel.type && jsonModel.type !== 'object') {
-            // The model is either an array or primitive type
-            return;
-        }
-        var model = [];
-
-        /* eslint-disable one-var */
-        for (var p in jsonModel.properties) {
-            var property = buildProperty(nga, jsonModel, p);
-            model.push(property);
-        }
-        return model;
-    }
-
-
     admin
         .addEntity(patient)
         .addEntity(medication)
@@ -157,7 +106,9 @@ app.config(['NgAdminConfigurationProvider', function (NgAdminConfigurationProvid
         });
 
     patient.creationView()
-        .fields([]);
+        .title('Create new Poster')
+        .fields([nga.field('id').validation({ required: true })
+            .cssClasses('col-sm-4')]);
 
     patient.editionView()
         .title('Edit post "{{ entry.values.id }}"') // title() accepts a template string, which has access to the entry
@@ -172,59 +123,25 @@ app.config(['NgAdminConfigurationProvider', function (NgAdminConfigurationProvid
             nga.field('photo').label('photo').template('<img ng-src="data:{{ entry.values.photo[0].contentType }};base64,{{ entry.values.photo[0].data }}" />')
         ]);
 
-
-    // customize header
-    var customHeaderTemplate =
-        '<div class="navbar-header">' +
-        '<button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed">' +
-        '<span class="icon-bar"></span>' +
-        '<span class="icon-bar"></span>' +
-        '<span class="icon-bar"></span>' +
-        '</button>' +
-        '<a class="navbar-brand" href="#" ng-click="appController.displayHome()">ng-admin backend demo</a>' +
-        '</div>' +
-        '<p class="navbar-text navbar-right hidden-xs">' +
-        '<a href="https://github.com/marmelab/ng-admin/blob/master/examples/blog/config.js"><span class="glyphicon glyphicon-sunglasses"></span>&nbsp;View Source</a>' +
-        '</p>';
-    admin.header(customHeaderTemplate);
-
     // customize menu
     admin.menu(nga.menu()
-        .addChild(nga.menu(patient).icon('<span class="glyphicon glyphicon-user"></span>'))
-        .addChild(nga.menu(medication).icon('<span class="glyphicon glyphicon-user"></span>'))
-        .addChild(nga.menu(appointment).icon('<span class="glyphicon glyphicon-user"></span>'))
+        .addChild(nga.menu(patient).icon('<span class="glyphicon glyphicon-user"></span>')
+            .addChild(nga.menu().title('Stats').link('/stats'))
+            .addChild(nga.menu().title('Stats').link('/stats'))
+            .addChild(nga.menu().title('Stats').link('/stats'))
+        )
+        .addChild(nga.menu(medication).title('Medication').icon('<span class="glyphicon glyphicon-user"></span>')
+            .addChild(nga.menu().title('Stats').link('/stats'))
+            .addChild(nga.menu().title('Stats').link('/stats'))
+        )
+        .addChild(nga.menu(appointment).icon('<span class="glyphicon glyphicon-user"></span>')
+            .addChild(nga.menu().title('Stats').link('/stats'))
+            .addChild(nga.menu().title('Stats').link('/stats'))
+        )
         .addChild(nga.menu(encounter).icon('<span class="glyphicon glyphicon-user"></span>'))
-        .addChild(nga.menu(allergy).icon('<span class="glyphicon glyphicon-user"></span>'))
+        .addChild(nga.menu(allergy).title('Allergies').icon('<span class="glyphicon glyphicon-user"></span>'))
     );
 
-    // customize dashboard
-    var customDashboardTemplate =
-        '<div class="row dashboard-starter"></div>' +
-        '<div class="row dashboard-content"><div class="col-lg-12"><div class="alert alert-info">' +
-        'Welcome to the demo! Fell free to explore and modify the data. We reset it every few minutes.' +
-        '</div></div></div>' +
-        '<div class="row dashboard-content">' +
-        '<div class="col-lg-12">' +
-        '<div class="panel panel-default">' +
-        '<ma-dashboard-panel collection="dashboardController.collections.comments" entries="dashboardController.entries.comments" datastore="dashboardController.datastore"></ma-dashboard-panel>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '<div class="row dashboard-content">' +
-        '<div class="col-lg-6">' +
-        '<div class="panel panel-green">' +
-        '<ma-dashboard-panel collection="dashboardController.collections.recent_posts" entries="dashboardController.entries.recent_posts" datastore="dashboardController.datastore"></ma-dashboard-panel>' +
-        '</div>' +
-        '<div class="panel panel-green">' +
-        '<ma-dashboard-panel collection="dashboardController.collections.popular_posts" entries="dashboardController.entries.popular_posts" datastore="dashboardController.datastore"></ma-dashboard-panel>' +
-        '</div>' +
-        '</div>' +
-        '<div class="col-lg-6">' +
-        '<div class="panel panel-yellow">' +
-        '<ma-dashboard-panel collection="dashboardController.collections.tags" entries="dashboardController.entries.tags" datastore="dashboardController.datastore"></ma-dashboard-panel>' +
-        '</div>' +
-        '</div>' +
-        '</div>';
     admin.dashboard(nga.dashboard()
         .addCollection(nga.collection(patient)
             .name('recent_posts')
@@ -243,16 +160,11 @@ app.config(['NgAdminConfigurationProvider', function (NgAdminConfigurationProvid
             .name('popular_posts')
             .title('Popular posts')
             .perPage(5) // limit the panel to the 5 latest posts
-            .fields([
-                nga.field('published_at', 'date').label('Published').format('MMM d'),
-                nga.field('title').isDetailLink(true).map(truncate),
-                nga.field('views', 'number')
-            ])
-            .sortField('views')
+            .fields(patient.listView().fields())
+            .sortField('id')
             .sortDir('DESC')
             .order(3)
         )
-        .template(customDashboardTemplate)
     );
     nga.configure(admin);
 }]);
