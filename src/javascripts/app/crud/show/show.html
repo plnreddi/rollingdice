@@ -1,35 +1,49 @@
 <div class="hbox hbox-auto-xs hbox-auto-sm">
-    <div class="bg-light lter b-b wrapper-md">
-        <div class="row">
-            <div class="col-sm-6 col-xs-12">
-                <h1 class="m-n font-thin h3 text-black" compile="::showController.title">
+  <div class="bg-light lter b-b wrapper-md">
+    <div class="row">
+      <div class="col-sm-6 col-xs-12">
+        <h1 class="m-n font-thin h3 text-black" compile="::showController.title">
                     {{ ::showController.view.entity.label() | humanize | singularize | translate }}  #{{ ::entry.identifierValue }} {{ 'DETAIL' | translate }}
                     </h1>
-                <small class="text-muted lead" ng-if="::showController.description" compile="::showController.description">{{ ::showController.description }}</small>
-            </div>
-        </div>
-        <ma-view-actions override="::showController.actions" entry="entry" entity="::showController.entity">
-            <ma-list-button ng-if="::entity.listView().enabled" entity="::entity"></ma-list-button>
-            <ma-edit-button ng-if="::entity.editionView().enabled" entry="entry" entity="::entity"></ma-edit-button>
-            <ma-delete-button ng-if="::entity.deletionView().enabled" entry="entry" entity="::entity"></ma-delete-button>
-        </ma-view-actions>
+        <small class="text-muted lead" ng-if="::showController.description" compile="::showController.description">{{ ::showController.description }}</small>
+      </div>
     </div>
+    <ma-view-actions override="::showController.actions" entry="entry" entity="::showController.entity">
+      <ma-list-button ng-if="::entity.listView().enabled" entity="::entity"></ma-list-button>
+      <ma-edit-button ng-if="::entity.editionView().enabled" entry="entry" entity="::entity"></ma-edit-button>
+      <ma-delete-button ng-if="::entity.deletionView().enabled" entry="entry" entity="::entity"></ma-delete-button>
+    </ma-view-actions>
+  </div>
 </div>
 
-<div class="wrapper-md row">
-    <div class="col-lg-6">
+<div class="hbox hbox-auto-xs bg-light " ng-init="
+  app.settings.asideFolded = true; 
+  app.settings.asideFixed = true;
+  app.settings.asideDock = false;
+  app.settings.container = false;
+  app.hideAside = false
+  ">
+
+  <div fill-height class="col w drkr b-r">
+    <ma-menu-bar menu="::appController.menu"></ma-menu-bar>
+  </div>
+  <div class="col lt">
+    <div class="wrapper-md row">
+      <div class="col-lg-6">
         <div class="panel panel-default">
-            <div class="panel-heading">Test</div>
-            <table class="table table-striped m-b-none">
-                <tbody>
-                    <tr ng-repeat="field in ::showController.fields track by $index" compile="::field.getTemplateValueWithLabel(entry)">
-                        <th>{{ field.label() | translate }}</th>
-                        <td>
-                            <ma-column field="::field" entry="::entry" entity="::showController.entity" datastore="::showController.datastore"></ma-column>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+          <div class="panel-heading">Test</div>
+          <table class="table table-striped m-b-none">
+            <tbody>
+              <tr ng-repeat="field in ::showController.fields track by $index" compile="::field.getTemplateValueWithLabel(entry)">
+                <th>{{ field.label() | translate }}</th>
+                <td>
+                  <ma-column field="::field" entry="::entry" entity="::showController.entity" datastore="::showController.datastore"></ma-column>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
     </div>
+  </div>
 </div>

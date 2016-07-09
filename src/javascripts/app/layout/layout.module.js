@@ -21,5 +21,6 @@ LayoutModule.directive('uiNav', require('./directives/ui-nav'));
 LayoutModule.directive('uiScroll', require('./directives/ui-scroll'));
 // LayoutModule.directive('uiShift', require('./directives/ui-shift'));
 LayoutModule.directive('uiToggleClass', require('./directives/ui-toggleclass'));
+LayoutModule.directive('fillHeight', require('./fill-height.directive'));
 
 LayoutModule.controller('TypeaheadDemoCtrl', require('./bootstrap'));

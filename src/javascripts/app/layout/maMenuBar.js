@@ -3,6 +3,7 @@ import angular from 'angular';
 
 export default function maMenuBar($location, $rootScope, $compile) {
     return {
+        replace: true,
         restrict: 'E',
         scope: {
             'menu': '&'
