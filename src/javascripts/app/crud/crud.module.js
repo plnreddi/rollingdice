@@ -1,7 +1,7 @@
 import angular from 'angular';
 
 var CrudModule = angular.module('app.crud', [
-    'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'ngFileUpload', 'ngNumeraljs'
+    'ui.router', 'ui.bootstrap', 'ngSanitize', 'textAngular', 'ngInflection', 'ui.codemirror', 'ngFileUpload', 'ngNumeraljs', 'xeditable'
 ]);
 
 CrudModule.controller('ListLayoutController', require('./list/ListLayoutController'));

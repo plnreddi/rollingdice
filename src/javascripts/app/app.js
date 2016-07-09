@@ -107,8 +107,10 @@ app.config(['NgAdminConfigurationProvider', function (NgAdminConfigurationProvid
 
     patient.creationView()
         .title('Create new Poster')
-        .fields([nga.field('id').validation({ required: true })
-            .cssClasses('col-sm-4')]);
+        .fields([
+            nga.field('id').validation({ required: true }).cssClasses('col-sm-4'),
+            nga.field('gender').label('gender')
+            ]);
 
     patient.editionView()
         .title('Edit post "{{ entry.values.id }}"') // title() accepts a template string, which has access to the entry
@@ -120,7 +122,10 @@ app.config(['NgAdminConfigurationProvider', function (NgAdminConfigurationProvid
     patient.showView() // a showView displays one entry in full page - allows to display more data than in a a list
         .fields([
             patient.creationView().fields(),
-            nga.field('photo').label('photo').template('<img ng-src="data:{{ entry.values.photo[0].contentType }};base64,{{ entry.values.photo[0].data }}" />')
+            nga.field('photo').label('photo').template('<img ng-src="data:{{ entry.values.photo[0].contentType }};base64,{{ entry.values.photo[0].data }}" />'),
+                    nga.field('name').label('name').map(function truncate(value, entry) {
+                return value[0].family + ' ' + value[0].given;
+            })
         ]);
 
     // customize menu

@@ -25,7 +25,8 @@ var ngAdminAndVendorSources = [
     'codemirror/lib/codemirror.css',
     'codemirror/addon/lint/lint.css',
     'ui-select/dist/select.css',
-    './src/sass/app.scss'
+    './src/sass/app.scss',
+    'angular-xeditable'
 ];
 
 module.exports = {

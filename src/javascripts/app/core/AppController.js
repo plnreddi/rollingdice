@@ -16,7 +16,7 @@ export default class AppController {
 
         // config
         $scope.app = {
-            name: 'Angulr',
+            name: 'Dyagnoze',
             version: '2.2.0',
             // for chart colors
             color: {
