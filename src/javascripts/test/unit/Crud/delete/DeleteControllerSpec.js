@@ -25,10 +25,6 @@ describe('DeleteController', function () {
         var writeQueries = {
             deleteOne: jasmine.createSpy('writeQueries.deleteOne').and.callFake(() => $q.when())
         };
-        var progression = {
-            start: () => true,
-            done: () => true,
-        };
         var notification = humane;
         var params = {
             id: 3,
@@ -53,7 +49,7 @@ describe('DeleteController', function () {
                     getEntity: () => entity
                 };
 
-                let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, progression, notification, {
+                let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, notification, {
                     id: deletedId,
                     entity: 'post'
                 }, view, entry);
@@ -80,7 +76,7 @@ describe('DeleteController', function () {
                     getEntity: () => entity
                 };
 
-                let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, progression, notification, {
+                let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, notification, {
                     id: deletedId,
                     entity: 'post'
                 }, view, entry);
@@ -111,7 +107,7 @@ describe('DeleteController', function () {
                 };
 
                 let $window = { history: { back: jasmine.createSpy('$window.history.back') } };
-                let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, progression, notification, {
+                let deleteController = new DeleteController($scope, $window, $state, $q, $translate, writeQueries, Configuration, notification, {
                     id: commentId,
                     entity: 'comment'
                 }, view, entry);

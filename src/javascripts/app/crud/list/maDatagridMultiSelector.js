@@ -6,7 +6,7 @@ export default function maDatagridMultiSelector() {
             selection: '=',
             toggleSelectAll: '&'
         },
-        template: '<input type="checkbox" ng-click="toggleSelectAll()" ng-checked="selection.length == entries.length" />',
+        template: '<label class="i-checks m-b-none"><input type="checkbox" ng-click="toggleSelectAll()" ng-checked="selection.length == entries.length" /><i></i></label>',
         link: function (scope, element) {
             scope.$watch('selection', function (selection) {
                 element.children()[0].indeterminate = selection.length > 0 && selection.length != scope.entries.length;

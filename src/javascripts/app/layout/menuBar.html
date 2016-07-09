@@ -27,9 +27,9 @@
       <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
     <span>{{ 'Navigation' | translate }}</span>
   </li>
-   <li ui-sref-active="active" ng-repeat="(key, menu) in ::menu.children()" data-menu-id="{{ ::menu.uuid }}">
-    <a href="#{{ menu.link() }}" ng-click="activateLink(menu)" ng-class="::{'active': menu.isActive(path)}">
-      <i class="glyphicon glyphicon-calendar icon text-info-dker"></i>
+   <li ng-class="::{'active': menu.isActive(path)}" ng-repeat="(key, menu) in ::menu.children()" data-menu-id="{{ ::menu.uuid }}">
+    <a href="#{{ menu.link() }}" ng-click="activateLink(menu)">
+      <i compile="::menu.icon()"><i class="glyphicon glyphicon-list icon text-info-dker"></i></i>
       <span class="font-bold">{{ menu.title() | translate }}</span>
     </a>
   </li>

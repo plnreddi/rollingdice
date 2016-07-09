@@ -14,4 +14,3 @@ CoreModule.config(require('./config/routing'));
 CoreModule.config(require('./config/translate'));
 
 CoreModule.run(require('./run/ErrorHandler'));
-CoreModule.run(require('./run/Loader'));

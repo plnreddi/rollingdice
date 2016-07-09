@@ -125,20 +125,20 @@ app.config(['NgAdminConfigurationProvider', function (NgAdminConfigurationProvid
 
     // customize menu
     admin.menu(nga.menu()
-        .addChild(nga.menu(patient).icon('<span class="glyphicon glyphicon-user"></span>')
+        .addChild(nga.menu(patient).icon('<i class="glyphicon glyphicon-stats icon text-primary-dker"></i>')
             .addChild(nga.menu().title('Stats').link('/stats'))
             .addChild(nga.menu().title('Stats').link('/stats'))
             .addChild(nga.menu().title('Stats').link('/stats'))
         )
-        .addChild(nga.menu(medication).title('Medication').icon('<span class="glyphicon glyphicon-user"></span>')
+        .addChild(nga.menu(medication).title('Medication').icon('<i class="glyphicon glyphicon-calendar icon text-info-dker"></i>')
             .addChild(nga.menu().title('Stats').link('/stats'))
             .addChild(nga.menu().title('Stats').link('/stats'))
         )
-        .addChild(nga.menu(appointment).icon('<span class="glyphicon glyphicon-user"></span>')
+        .addChild(nga.menu(appointment).icon('<i class="glyphicon glyphicon-envelope icon text-info-lter"></i>')
             .addChild(nga.menu().title('Stats').link('/stats'))
             .addChild(nga.menu().title('Stats').link('/stats'))
         )
-        .addChild(nga.menu(encounter).icon('<span class="glyphicon glyphicon-user"></span>'))
+        .addChild(nga.menu(encounter).icon('<i class="glyphicon glyphicon-th-large icon text-success"></i>'))
         .addChild(nga.menu(allergy).title('Allergies').icon('<span class="glyphicon glyphicon-user"></span>'))
     );
 

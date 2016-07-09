@@ -1,5 +1,5 @@
 export default class FormController {
-    constructor($scope, $state, $injector, $translate, previousState, WriteQueries, Configuration, progression, notification, view, dataStore) {
+    constructor($scope, $state, $injector, $translate, previousState, WriteQueries, Configuration, notification, view, dataStore) {
         this.$scope = $scope;
         this.$state = $state;
         this.$injector = $injector;
@@ -7,7 +7,6 @@ export default class FormController {
         this.previousState = previousState;
         this.WriteQueries = WriteQueries;
         this.dataStore = dataStore;
-        this.progression = progression;
         this.notification = notification;
         this.title = view.title();
         this.description = view.description();
@@ -47,11 +46,10 @@ export default class FormController {
         if (!this.validateEntry()) {
             return;
         }
-        const { entity, view, $state, progression, notification, $translate } = this;
+        const { entity, view, $state, notification, $translate } = this;
         var route = entity.showView().enabled ? 'show' : 'list';
         var restEntry = this.$scope.entry.transformToRest(view.fields());
         var entry = null;
-        progression.start();
         this.WriteQueries
             .createOne(view, restEntry)
             .then(rawEntry => {
@@ -61,13 +59,12 @@ export default class FormController {
             .then(entry => view.onSubmitSuccess() && this.$injector.invoke(
                 view.onSubmitSuccess(),
                 view,
-                { $event, entity, entry, route, controller: this, form: this.form, progression, notification }
+                { $event, entity, entry, route, controller: this, form: this.form, notification }
             ))
             .then(customHandlerReturnValue => (customHandlerReturnValue === false) ?
                 new Promise(resolve => resolve()) :
                 $state.go(this.$state.get(route), { entity: entity.name(), id: entry.identifierValue })
             )
-            .then(() => progression.done())
             .then(() => $translate('CREATION_SUCCESS'))
             .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
             .catch(error => {
@@ -75,10 +72,9 @@ export default class FormController {
                 const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
                     view.onSubmitError(),
                     view,
-                    { $event, error, errorMessage, entity, entry, route, controller: this, form: this.form, progression, notification }
+                    { $event, error, errorMessage, entity, entry, route, controller: this, form: this.form, notification }
                 );
                 if (customHandlerReturnValue === false) return;
-                progression.done();
                 $translate(errorMessage, {
                     status: error && error.status,
                     details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
@@ -91,10 +87,9 @@ export default class FormController {
         if (!this.validateEntry()) {
             return;
         }
-        const { view, $state, previousState, progression, notification, $translate } = this;
+        const { view, $state, previousState, notification, $translate } = this;
         var restEntry = this.$scope.entry.transformToRest(view.fields());
         var entry = null;
-        progression.start();
         this.WriteQueries
             .updateOne(view, restEntry, this.originEntityId)
             .then(rawEntry => {
@@ -104,12 +99,11 @@ export default class FormController {
             .then(entry => view.onSubmitSuccess() && this.$injector.invoke(
                 view.onSubmitSuccess(),
                 view,
-                { $event, entity: this.entity, entry, controller: this, form: this.form, progression, notification }
+                { $event, entity: this.entity, entry, controller: this, form: this.form, notification }
             ))
             .then(customHandlerReturnValue => {
                 if (customHandlerReturnValue === false) return;
                 $state.go(previousState.name, previousState.params)
-                    .then(() => progression.done())
                     .then(() => $translate('EDITION_SUCCESS'))
                     .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }));
             })
@@ -118,10 +112,9 @@ export default class FormController {
                 const customHandlerReturnValue = view.onSubmitError() && this.$injector.invoke(
                     view.onSubmitError(),
                     view,
-                    { $event, error, errorMessage, entity: this.entity, entry, controller: this, form: this.form, progression, notification }
+                    { $event, error, errorMessage, entity: this.entity, entry, controller: this, form: this.form, notification }
                 );
                 if (customHandlerReturnValue === false) return;
-                progression.done();
                 $translate(errorMessage, {
                     status: error && error.status,
                     details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
@@ -142,4 +135,4 @@ export default class FormController {
     }
 }
 
-FormController.$inject = ['$scope', '$state', '$injector', '$translate', 'previousState', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'view', 'dataStore'];
+FormController.$inject = ['$scope', '$state', '$injector', '$translate', 'previousState', 'WriteQueries', 'NgAdminConfiguration', 'notification', 'view', 'dataStore'];

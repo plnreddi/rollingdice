@@ -20,7 +20,6 @@ var ngAdminAndVendorSources = [
     'font-awesome/scss/font-awesome.scss',
     'simple-line-icons/scss/simple-line-icons.scss',
     'bootstrap-sass/assets/stylesheets/_bootstrap.scss',
-    'nprogress/nprogress.css',
     'humane-js/themes/flatty.css',
     'textangular/src/textAngular.css',
     'codemirror/lib/codemirror.css',

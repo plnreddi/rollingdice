@@ -1,10 +1,9 @@
 export default class BatchDeleteController {
-    constructor($scope, $state, $translate, WriteQueries, progression, notification, view) {
+    constructor($scope, $state, $translate, WriteQueries, notification, view) {
         this.$scope = $scope;
         this.$state = $state;
         this.$translate = $translate;
         this.WriteQueries = WriteQueries;
-        this.progression = progression;
         this.notification = notification;
         this.view = view;
         this.entity = view.getEntity();
@@ -21,16 +20,13 @@ export default class BatchDeleteController {
 
     batchDelete() {
         const entityName = this.entity.name();
-        const { $translate, $state, progression, notification } = this;
-        progression.start();
+        const { $translate, $state, notification } = this;
         return this.WriteQueries.batchDelete(this.view, this.entityIds)
             .then(() => $state.go($state.get('list'), angular.extend({ entity: entityName }, $state.params)))
-            // no need to call progression.done() in case of success, as it's called by the view dislayed afterwards
             .then(() => $translate('BATCH_DELETE_SUCCESS'))
             .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
             .catch(error => {
                 const errorMessage = this.config.getErrorMessageFor(this.view, error) | 'ERROR_MESSAGE';
-                progression.done();
                 $translate(errorMessage, {
                     status: error && error.status,
                     details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
@@ -49,9 +45,8 @@ export default class BatchDeleteController {
         this.$state = undefined;
         this.$translate = undefined;
         this.WriteQueries = undefined;
-        this.progression = undefined;
         this.notification = undefined;
     }
 }
 
-BatchDeleteController.$inject = ['$scope', '$state', '$translate', 'WriteQueries', 'progression', 'notification', 'view'];
+BatchDeleteController.$inject = ['$scope', '$state', '$translate', 'WriteQueries', 'notification', 'view'];

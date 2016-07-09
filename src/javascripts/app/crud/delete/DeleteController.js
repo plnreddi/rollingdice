@@ -1,5 +1,5 @@
 export default class DeleteController {
-    constructor($scope, $window, $state, $q, $translate, WriteQueries, Configuration, progression, notification, params, view, entry) {
+    constructor($scope, $window, $state, $q, $translate, WriteQueries, Configuration, notification, params, view, entry) {
         this.$scope = $scope;
         this.$window = $window;
         this.$state = $state;
@@ -13,7 +13,6 @@ export default class DeleteController {
         this.description = view.description();
         this.actions = view.actions();
         this.entity = view.getEntity();
-        this.progression = progression;
         this.notification = notification;
         this.$scope.entry = entry;
         this.$scope.view = view;
@@ -28,8 +27,7 @@ export default class DeleteController {
 
     deleteOne() {
         const entityName = this.entity.name();
-        const { $translate, notification, progression } = this;
-        progression.start();
+        const { $translate, notification } = this;
         return this.WriteQueries.deleteOne(this.view, this.entityId)
             .then(() => this.previousStateParametersDeferred.promise)
             .then(previousStateParameters => {
@@ -41,12 +39,10 @@ export default class DeleteController {
                 }
                 return this.back();
             })
-            // no need to call progression.done() in case of success, as it's called by the view dislayed afterwards
             .then(() => $translate('DELETE_SUCCESS'))
             .then(text => notification.log(text, { addnCls: 'humane-flatty-success' }))
             .catch(error => {
                 const errorMessage = this.config.getErrorMessageFor(this.view, error) | 'ERROR_MESSAGE';
-                progression.done();
                 $translate(errorMessage, {
                     status: error && error.status,
                     details: error && error.data && typeof error.data === 'object' ? JSON.stringify(error.data) : {}
@@ -66,9 +62,8 @@ export default class DeleteController {
         this.WriteQueries = undefined;
         this.view = undefined;
         this.entity = undefined;
-        this.progression = undefined;
         this.notification = undefined;
     }
 }
 
-DeleteController.$inject = ['$scope', '$window', '$state', '$q', '$translate', 'WriteQueries', 'NgAdminConfiguration', 'progression', 'notification', 'params', 'view', 'entry'];
+DeleteController.$inject = ['$scope', '$window', '$state', '$q', '$translate', 'WriteQueries', 'NgAdminConfiguration', 'notification', 'params', 'view', 'entry'];

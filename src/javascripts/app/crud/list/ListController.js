@@ -1,13 +1,12 @@
 import Entry from 'admin-config/lib/Entry';
 
 export default class ListController {
-    constructor($scope, $stateParams, $location, $anchorScroll, ReadQueries, progression, view, dataStore, totalItems) {
+    constructor($scope, $stateParams, $location, $anchorScroll, ReadQueries, view, dataStore, totalItems) {
         this.$scope = $scope;
         this.$stateParams = $stateParams;
         this.$location = $location;
         this.$anchorScroll = $anchorScroll;
         this.ReadQueries = ReadQueries;
-        this.progression = progression;
         this.view = view;
         this.entity = view.getEntity();
         this.loadingPage = false;
@@ -42,7 +41,6 @@ export default class ListController {
         let view = this.view,
             dataStore = this.dataStore;
 
-        this.progression.start();
 
         const references = view.getReferences();
         let data;
@@ -54,7 +52,6 @@ export default class ListController {
                 return this.ReadQueries.getReferenceData(view.fields(), data);
             })
             .then((referenceData) => {
-                this.progression.done();
 
                 for (var name in referenceData) {
                     Entry.createArrayFromRest(
@@ -90,4 +87,4 @@ export default class ListController {
     }
 }
 
-ListController.$inject = ['$scope', '$stateParams', '$location', '$anchorScroll', 'ReadQueries', 'progression', 'view', 'dataStore', 'totalItems'];
+ListController.$inject = ['$scope', '$stateParams', '$location', '$anchorScroll', 'ReadQueries', 'view', 'dataStore', 'totalItems'];
