@@ -110,7 +110,7 @@ app.config(['NgAdminConfigurationProvider', function (NgAdminConfigurationProvid
         .fields([
             nga.field('id').validation({ required: true }).cssClasses('col-sm-4'),
             nga.field('gender').label('gender')
-            ]);
+        ]);
 
     patient.editionView()
         .title('Edit post "{{ entry.values.id }}"') // title() accepts a template string, which has access to the entry
@@ -123,10 +123,54 @@ app.config(['NgAdminConfigurationProvider', function (NgAdminConfigurationProvid
         .fields([
             patient.creationView().fields(),
             nga.field('photo').label('photo').template('<img ng-src="data:{{ entry.values.photo[0].contentType }};base64,{{ entry.values.photo[0].data }}" />'),
-                    nga.field('name').label('name').map(function truncate(value, entry) {
+            nga.field('name').label('name').map(function truncate(value, entry) {
                 return value[0].family + ' ' + value[0].given;
             })
         ]);
+
+    patient.showView().viewGroups([
+        nga.viewGroup().partialViews([
+            nga.partialView().fields([
+                patient.creationView().fields(),
+                nga.field('photo').label('photo').template('<img ng-src="data:{{ entry.values.photo[0].contentType }};base64,{{ entry.values.photo[0].data }}" />'),
+                nga.field('name').label('name').map(function truncate(value, entry) {
+                    return value[0].family + ' ' + value[0].given;
+                })
+            ]),
+            nga.partialView().title('abc').fields([
+                patient.creationView().fields()
+            ]),
+            nga.partialView().title('abc').fields([
+                patient.creationView().fields()
+            ]),
+            nga.partialView().title('abc').fields([
+                patient.creationView().fields()
+            ]),
+            nga.partialView().title('abc').fields([
+                patient.creationView().fields()
+            ]),
+            nga.partialView().title('abc').fields([
+                patient.creationView().fields()
+            ])
+        ]), nga.viewGroup().partialViews([
+            nga.partialView().fields([
+                patient.creationView().fields(),
+                nga.field('photo').label('photo').template('<img ng-src="data:{{ entry.values.photo[0].contentType }};base64,{{ entry.values.photo[0].data }}" />'),
+                nga.field('name').label('name').map(function truncate(value, entry) {
+                    return value[0].family + ' ' + value[0].given;
+                })
+            ]),
+            nga.partialView().title('abc').fields([
+                patient.creationView().fields()
+            ]),
+            nga.partialView().title('abc').fields([
+                patient.creationView().fields()
+            ]),
+            nga.partialView().title('abc').fields([
+                patient.creationView().fields()
+            ])
+        ])
+    ]);
 
     // customize menu
     admin.menu(nga.menu()

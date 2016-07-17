@@ -145,13 +145,13 @@ function routing($stateProvider) {
         });
 
     $stateProvider
-        .state('showme', {
-            parent: 'main',
-            url: '/:entity/showme/:id',
+        .state('showRelation', {
+            parent: 'show',
+            url: '/:relation',
             template: '<h2>hello</h2><ui-view />'
         })
         .state('showmetab', {
-            parent: 'showme',
+            parent: 'showRelation',
             url: '/:tab',
             template: `<uib-tabset active="activePill" vertical="true" type="pills">
             <uib-tab index="0" heading="Vertical 1">Vertical content 1</uib-tab>
@@ -162,7 +162,7 @@ function routing($stateProvider) {
     $stateProvider
         .state('show', {
             parent: 'main',
-            url: '/:entity/show/:id?sortField&sortDir',
+            url: '/:entity/:id?sortField&sortDir',
             controller: 'ShowController',
             controllerAs: 'showController',
             templateProvider: templateProvider('ShowView', showTemplate),

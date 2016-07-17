@@ -7,6 +7,7 @@ export default class ShowController {
         this.actions = view.actions();
 
         this.fields = view.fields();
+        this.viewGroups = view.viewGroups();
         this.$scope.entry = dataStore.getFirstEntry(view.getEntity().uniqueId);
         this.$scope.view = view;
         this.view = view;

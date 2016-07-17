@@ -53,6 +53,14 @@ export default class NgAdminConfiguration {
     dashboard(dashboard) {
         return this.adminDescription.dashboard(dashboard);
     }
+        
+    partialView(partialView) {
+        return this.adminDescription.partialView(partialView);
+    }
+
+    viewGroup(viewGroup) {
+        return this.adminDescription.viewGroup(viewGroup);
+    }
 }
 
 NgAdminConfiguration.$inject = ['$compileProvider'];

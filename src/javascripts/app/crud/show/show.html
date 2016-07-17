@@ -29,21 +29,54 @@
   </div>
   <div class="col lt">
     <div class="wrapper-md row">
-      <div class="col-lg-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">Test</div>
-          <table class="table table-striped m-b-none">
-            <tbody>
-              <tr ng-repeat="field in ::showController.fields track by $index" compile="::field.getTemplateValueWithLabel(entry)">
-                <th>{{ field.label() | translate }}</th>
-                <td>
-                  <ma-column field="::field" entry="::entry" entity="::showController.entity" datastore="::showController.datastore"></ma-column>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+<ui-view />
+      <uib-tabset active="active">
+        <uib-tab ng-repeat="viewGroup in ::showController.viewGroups track by $index" index="$index" heading="Static title">
+          <div class="col-lg-6">
+          <div ng-repeat="partialView in ::viewGroup.getPartialViews()" class="panel panel-default">
+            <div ng-if="partialView.title()" class="panel-heading">{{ ::partialView.title() | translate }}</div>
+            <table class="table table-striped m-b-none">
+              <tbody>
+                <tr ng-repeat="field in ::partialView.getFields() track by $index" compile="::field.getTemplateValueWithLabel(entry)">
+                  <th>{{ field.label() | translate }}</th>
+                  <td>
+                    <ma-column field="::field" entry="::entry" entity="::showController.entity" datastore="::showController.datastore"></ma-column>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+        </uib-tab>
+      </uib-tabset>
+
+      <div class="col w-md bg-white-only b-l bg-auto no-border-xs">
+        <!--<div class="nav-tabs-alt">
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="active">
+              <a data-target="#tab-1" role="tab" data-toggle="tab">
+                <i class="glyphicon glyphicon-user text-md text-muted wrapper-sm"></i>
+              </a>
+            </li>
+            <li>
+              <a data-target="#tab-2" role="tab" data-toggle="tab">
+                <i class="glyphicon glyphicon-comment text-md text-muted wrapper-sm"></i>
+              </a>
+            </li>
+            <li>
+              <a data-target="#tab-3" role="tab" data-toggle="tab">
+                <i class="glyphicon glyphicon-transfer text-md text-muted wrapper-sm"></i>
+              </a>
+            </li>
+          </ul>
         </div>
+        </div>-->
+
       </div>
+
     </div>
   </div>
+</div>
+</div>
+</div>
 </div>
